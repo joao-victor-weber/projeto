@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>PDF Translator</h1>
+        <p>
+          Base de projeto em Flask para enviar um PDF, traduzir com Gemini e devolver um novo PDF.
+        </p>
+
+        <form action="/api/v1/translate" method="post" enctype="multipart/form-data">
+          <label>
+            PDF
+            <input type="file" name="file" accept="application/pdf" required />
+          </label>
+
+          <label>
+            Idioma de origem
+            <input type="text" name="source_language" placeholder="auto" value="auto" />
+          </label>
+
+          <label>
+            Idioma de destino
+            <input type="text" name="target_language" placeholder="English" value="English" required />
+          </label>
+
+          <label>
+            Modelo Gemini
+            <input type="text" name="model" placeholder="gemini-2.5-flash" value="gemini-2.5-flash" />
+          </label>
+
+          <button type="submit">Traduzir PDF</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
