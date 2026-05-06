@@ -1,0 +1,17 @@
+{
+  "name": "api_ia_docker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "João Victor Weber",
+  "license": "ISC",
+  "description": "O projeto tem como objetivo criar uma API RESTful utilizando o framework Express.js, que será containerizada usando Docker. A API fornecerá endpoints para realizar operações CRUD (Create, Read, Update, Delete) em um recurso específico, como por exemplo, um recurso de usuários. A aplicação será configurada para ser facilmente implantada em ambientes de produção usando Docker. E de juntar varias APIs de IAs em um só lugar. Fazendo com que seja mais fácil de usar e acessar as IAs.",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
