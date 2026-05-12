@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec: 
+  replicas: 2 # Executa 2 instâncias do backend para alta disponibilidade
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: torikano/api_gemini_docker-backend:1.0.1
+          ports:
+          - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: frontend-deployment
+
+spec:
+  replicas: 2 # Executa 2 instâncias do frontend para alta disponibilidade
+
+  selector:
+    matchLabels:
+      app: frontend
+
+  template:
+    metadata:
+      labels:
+        app: frontend
+
+    spec:
+      containers:
+        - name: frontend
+          image: torikano/api_gemini_docker-frontend:1.0.1
+
+          ports:
+            - containerPort: 5173
+
+          env:
+            - name: REACT_APP_API_URL
+              value: "<http://backend-service:3000>" # URL interna do k8s(apenas SSR) ou URL publica (se SPA)
