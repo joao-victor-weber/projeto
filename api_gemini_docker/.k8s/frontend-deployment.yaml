@@ -1,29 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: frontend-deployment
-
+  namespace: sistema
+  labels:
+    app: frontend
 spec:
-  replicas: 2 # Executa 2 instâncias do frontend para alta disponibilidade
-
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
-
   template:
     metadata:
       labels:
         app: frontend
-
     spec:
       containers:
         - name: frontend
-          image: torikano/api_gemini_docker-frontend:1.0.1
-
+          image: api-gemini-frontend:1.0.1
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 5173
-
+            - name: http
+              containerPort: 5173
+              protocol: TCP
           env:
-            - name: REACT_APP_API_URL
-              value: "<http://backend-service:3000>" # URL interna do k8s(apenas SSR) ou URL publica (se SPA)
+            - name: VITE_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: VITE_API_URL
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20

@@ -2,8 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-spec: 
-  replicas: 2 # Executa 2 instâncias do backend para alta disponibilidade
+  namespace: sistema
+  labels:
+    app: backend
+spec:
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -14,9 +17,42 @@ spec:
     spec:
       containers:
         - name: backend
-          image: torikano/api_gemini_docker-backend:1.0.1
+          image: api-gemini-backend:1.0.1
+          imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 3000
+            - name: http
+              containerPort: 5000
+              protocol: TCP
           env:
-            - name: NODE_ENV
-              value: "production"
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PORT
+            - name: CORS_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: CORS_ORIGINS
+            - name: GEMINI_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: GEMINI_MODEL
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GEMINI_API_KEY
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20

@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from google import genai
@@ -12,14 +13,22 @@ CORS(
 )
 
 MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+PLACEHOLDER_API_KEYS = {
+    "coloque sua chave api",
+    "coloque-sua-chave-aqui",
+    "sua_chave_aqui",
+}
 
 
 def get_api_key() -> str:
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("google_key")
-    if not api_key:
+    api_key = (os.getenv("GEMINI_API_KEY") or os.getenv("google_key") or "").strip()
+    api_key = api_key.strip("\"'")
+
+    if not api_key or api_key.lower() in PLACEHOLDER_API_KEYS:
         raise RuntimeError(
             "Defina a variável GEMINI_API_KEY no arquivo .env ou nas variáveis do sistema."
         )
+
     return api_key
 
 

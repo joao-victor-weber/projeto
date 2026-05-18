@@ -1,5 +1,7 @@
 # API Gemini com Flask, Vite e Docker
 
+Aplicação simples com backend Flask, frontend Vite/React e integração com a API Gemini.
+
 ## Como rodar com Docker
 
 1. Copie o arquivo de ambiente:
@@ -12,6 +14,7 @@ cp .env.example .env
 
 ```env
 GEMINI_API_KEY=sua_chave_aqui
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
 3. Suba o projeto:
@@ -54,14 +57,18 @@ python app.py
 ```bash
 cd frontend
 npm install
+$env:VITE_API_URL="http://localhost:5000"
 npm run dev
 ```
 
-## Principais correções feitas
+## Kubernetes
 
-- Corrigido `requirements.txt`: em Python, dependências usam `==` ou `>=`, não `=`.
-- Corrigido `docker-compose.yaml`: o build agora aponta para `./backend` e `./frontend`.
-- Corrigido Dockerfile do backend: agora roda com Gunicorn e escuta em `0.0.0.0:5000`.
-- Corrigido Flask: removida dependência de template antigo e mantida apenas a API JSON.
-- Corrigido frontend: Vite roda em `0.0.0.0`, necessário dentro do Docker.
-- Removida `.venv` do projeto final: ambientes virtuais não devem ser enviados dentro do ZIP.
+Os manifests ficam em `.k8s/` e usam o namespace `sistema`.
+
+Antes de aplicar, edite `.k8s/secret.yaml` e substitua `GEMINI_API_KEY` por uma chave real.
+
+```bash
+kubectl apply -f .k8s/
+```
+
+O Ingress está configurado para `sistema.toritestskano.com`.
