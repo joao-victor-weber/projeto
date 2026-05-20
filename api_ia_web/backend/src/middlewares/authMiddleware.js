@@ -13,7 +13,7 @@ function getTokenFromHeader(authorizationHeader) {
 
   const [scheme, token] = parts;
 
-  if (scheme !== "Bearer") {
+  if (scheme.toLowerCase() !== "bearer") {
     return null;
   }
 
