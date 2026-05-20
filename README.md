@@ -1,3 +1,4 @@
+Repositorio do projeto de chat ia, que integra varias IAs em um site, tirando a nessecidade de ter que abrir seus respequetivos sites, atualmente só suporta o gemini.<br>
 Guia dos projetos <br><br>
 api_gemini<br>
  Primeira versão do progeto chat, primeira tentativa de rodar A API do gemini.<br><br>
