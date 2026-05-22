@@ -7,10 +7,18 @@ import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim());
+
 app.use(cors({
-  origin: "http://localhost:5173",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(null, false);
+  }
 }));
 
 app.use(express.json());
@@ -21,7 +29,7 @@ app.use("/auth", authRoutes);
 
 app.use((req, res) => {
   return res.status(404).json({
-    error: "Rota não encontrada.",
+    error: "Rota não encontrada."
   });
 });
 
