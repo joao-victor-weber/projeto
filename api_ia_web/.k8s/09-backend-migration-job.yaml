@@ -10,8 +10,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: backend-migration
-          image: api-ia-web-backend:dev
-          imagePullPolicy: Never
+          image: torikano/api-ia-web-backend:1.0.0
+          imagePullPolicy: IfNotPresent
           command: ["npm", "run", "migrate"]
           envFrom:
             - configMapRef:

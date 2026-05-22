@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: api-ia-web-backend:dev
-          imagePullPolicy: Never
+          image: torikano/api-ia-web-backend:1.0.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           envFrom:
