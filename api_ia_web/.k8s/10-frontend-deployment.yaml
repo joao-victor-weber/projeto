@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: torikano/api-ia-web-frontend:1.0.1
+          image: torikano/api-ia-web-frontend:k8s-1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
